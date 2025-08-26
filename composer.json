@@ -1,0 +1,11 @@
+{
+    "name": "friendsofbotble/fob-request-quote",
+    "description": "Request Quote plugin for Botble CMS",
+    "type": "package",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "FriendsOfBotble\\RequestQuote\\": "src/"
+        }
+    }
+}

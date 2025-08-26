@@ -1,0 +1,11 @@
+{
+    "id": "friendsofbotble/fob-request-quote",
+    "name": "FOB Request Quote",
+    "namespace": "FriendsOfBotble\\RequestQuote\\",
+    "provider": "FriendsOfBotble\\RequestQuote\\Providers\\RequestQuoteServiceProvider",
+    "author": "Friends Of Botble",
+    "url": "https://friendsofbotble.com",
+    "version": "1.0.0",
+    "description": "Add request quote functionality to products",
+    "minimum_core_version": "7.5.0"
+}
