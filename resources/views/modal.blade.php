@@ -1,3 +1,9 @@
+@php
+    use FriendsOfBotble\RequestQuote\Forms\Fronts\RequestQuoteForm;
+    
+    $form = RequestQuoteForm::create();
+@endphp
+
 <div class="modal fade" id="requestQuoteModal" tabindex="-1" aria-labelledby="requestQuoteModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -7,83 +13,18 @@
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form id="requestQuoteForm" action="{{ route('public.request-quote.submit') }}" method="POST">
-                @csrf
-                <div class="modal-body">
-                    <input type="hidden" name="product_id" id="quote_product_id" value="">
-                    
-                    <div class="mb-3">
-                        <p class="text-muted mb-3">
-                            <strong>{{ trans('plugins/fob-request-quote::request-quote.product') }}:</strong> 
-                            <span id="quote_product_name">-</span>
-                            <br><small class="text-muted">{{ trans('plugins/fob-request-quote::request-quote.sku') }}: <span id="quote_product_sku">-</span></small>
-                        </p>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="quote_name" class="form-label required">
-                                {{ trans('plugins/fob-request-quote::request-quote.name') }}
-                            </label>
-                            <input type="text" class="form-control" id="quote_name" name="name" required>
-                        </div>
-                        
-                        <div class="col-md-6 mb-3">
-                            <label for="quote_email" class="form-label required">
-                                {{ trans('plugins/fob-request-quote::request-quote.email_address') }}
-                            </label>
-                            <input type="email" class="form-control" id="quote_email" name="email" required>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="quote_phone" class="form-label">
-                                {{ trans('plugins/fob-request-quote::request-quote.phone') }}
-                            </label>
-                            <input type="tel" class="form-control" id="quote_phone" name="phone">
-                        </div>
-                        
-                        <div class="col-md-6 mb-3">
-                            <label for="quote_company" class="form-label">
-                                {{ trans('plugins/fob-request-quote::request-quote.company') }}
-                            </label>
-                            <input type="text" class="form-control" id="quote_company" name="company">
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="quote_quantity" class="form-label required">
-                            {{ trans('plugins/fob-request-quote::request-quote.quantity') }}
-                        </label>
-                        <input type="number" class="form-control" id="quote_quantity" name="quantity" min="1" value="1" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="quote_message" class="form-label">
-                            {{ trans('plugins/fob-request-quote::request-quote.message') }}
-                        </label>
-                        <textarea class="form-control" id="quote_message" name="message" rows="4" 
-                                  placeholder="{{ trans('plugins/fob-request-quote::request-quote.message_placeholder') }}"></textarea>
-                    </div>
-
-                    <div class="alert alert-info d-none" id="quoteSuccessMessage">
-                        {{ trans('plugins/fob-request-quote::request-quote.success_message') }}
-                    </div>
-
-                    <div class="alert alert-danger d-none" id="quoteErrorMessage"></div>
-                </div>
-                
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                        {{ trans('plugins/fob-request-quote::request-quote.cancel') }}
-                    </button>
-                    <button type="submit" class="btn btn-primary" id="submitQuoteBtn">
-                        <span class="spinner-border spinner-border-sm d-none me-2" role="status" aria-hidden="true"></span>
-                        {{ trans('plugins/fob-request-quote::request-quote.submit') }}
-                    </button>
-                </div>
-            </form>
+            <div class="modal-body">
+                {!! $form->renderForm() !!}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    {{ trans('plugins/fob-request-quote::request-quote.cancel') }}
+                </button>
+                <button type="submit" class="btn btn-primary" id="submitQuoteBtn" form="requestQuoteForm">
+                    <span class="spinner-border spinner-border-sm d-none me-2" role="status" aria-hidden="true"></span>
+                    {{ trans('plugins/fob-request-quote::request-quote.submit') }}
+                </button>
+            </div>
         </div>
     </div>
 </div>

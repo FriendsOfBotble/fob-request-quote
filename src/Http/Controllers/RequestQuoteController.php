@@ -51,7 +51,7 @@ class RequestQuoteController extends BaseController
     public function updateStatus($quote, Request $request, BaseHttpResponse $response)
     {
         $quote = RequestQuote::query()->findOrFail($quote);
-        
+
         $status = $request->input('status');
         if (in_array($status, RequestQuoteStatusEnum::values())) {
             $quote->status = $status;

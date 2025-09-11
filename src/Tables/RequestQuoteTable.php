@@ -7,9 +7,9 @@ use Botble\Table\Actions\DeleteAction;
 use Botble\Table\Actions\ViewAction;
 use Botble\Table\BulkActions\DeleteBulkAction;
 use Botble\Table\Columns\Column;
-use Botble\Table\Columns\FormattedColumn;
 use Botble\Table\Columns\CreatedAtColumn;
 use Botble\Table\Columns\EmailColumn;
+use Botble\Table\Columns\FormattedColumn;
 use Botble\Table\Columns\IdColumn;
 use Botble\Table\Columns\NameColumn;
 use Botble\Table\Columns\StatusColumn;
@@ -47,6 +47,7 @@ class RequestQuoteTable extends TableAbstract
                                 e($item->product->name)
                             );
                         }
+
                         return null;
                     })
                     ->withEmptyState(),

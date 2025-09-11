@@ -9,7 +9,7 @@ use Illuminate\Support\HtmlString;
 class RequestQuoteStatusEnum extends Enum
 {
     public const PENDING = 'pending';
-    
+
     public const PROCESSING = 'processing';
 
     public const COMPLETED = 'completed';

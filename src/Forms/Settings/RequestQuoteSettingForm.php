@@ -3,9 +3,11 @@
 namespace FriendsOfBotble\RequestQuote\Forms\Settings;
 
 use Botble\Base\Forms\FieldOptions\CoreIconFieldOption;
+use Botble\Base\Forms\FieldOptions\EditorFieldOption;
 use Botble\Base\Forms\FieldOptions\OnOffFieldOption;
 use Botble\Base\Forms\FieldOptions\TextFieldOption;
 use Botble\Base\Forms\Fields\CoreIconField;
+use Botble\Base\Forms\Fields\EditorField;
 use Botble\Base\Forms\Fields\OnOffField;
 use Botble\Base\Forms\Fields\TextField;
 use Botble\Setting\Forms\SettingForm;
@@ -27,7 +29,7 @@ class RequestQuoteSettingForm extends SettingForm
                 OnOffFieldOption::make()
                     ->label(trans('plugins/fob-request-quote::request-quote.enable_request_quote'))
                     ->value(setting('request_quote_enabled', true))
-                    ->toArray()
+                    ->helperText(trans('plugins/fob-request-quote::request-quote.enable_request_quote_helper'))
             )
             ->add(
                 'request_quote_receiver_emails',
@@ -37,7 +39,6 @@ class RequestQuoteSettingForm extends SettingForm
                     ->value(setting('request_quote_receiver_emails', ''))
                     ->placeholder(trans('plugins/fob-request-quote::request-quote.receiver_emails_placeholder'))
                     ->helperText(trans('plugins/fob-request-quote::request-quote.receiver_emails_helper'))
-                    ->toArray()
             )
             ->add(
                 'request_quote_button_icon',
@@ -45,7 +46,7 @@ class RequestQuoteSettingForm extends SettingForm
                 CoreIconFieldOption::make()
                     ->label(trans('plugins/fob-request-quote::request-quote.button_icon'))
                     ->value(setting('request_quote_button_icon', 'ti ti-file-text'))
-                    ->toArray()
+                    ->helperText(trans('plugins/fob-request-quote::request-quote.button_icon_helper'))
             )
             ->add(
                 'request_quote_show_for_out_of_stock',
@@ -53,7 +54,7 @@ class RequestQuoteSettingForm extends SettingForm
                 OnOffFieldOption::make()
                     ->label(trans('plugins/fob-request-quote::request-quote.show_for_out_of_stock'))
                     ->value(setting('request_quote_show_for_out_of_stock', false))
-                    ->toArray()
+                    ->helperText(trans('plugins/fob-request-quote::request-quote.show_for_out_of_stock_helper'))
             )
             ->add(
                 'request_quote_show_always',
@@ -61,7 +62,7 @@ class RequestQuoteSettingForm extends SettingForm
                 OnOffFieldOption::make()
                     ->label(trans('plugins/fob-request-quote::request-quote.show_always'))
                     ->value(setting('request_quote_show_always', true))
-                    ->toArray()
+                    ->helperText(trans('plugins/fob-request-quote::request-quote.show_always_helper'))
             )
             ->add(
                 'request_quote_send_confirmation',
@@ -69,15 +70,33 @@ class RequestQuoteSettingForm extends SettingForm
                 OnOffFieldOption::make()
                     ->label(trans('plugins/fob-request-quote::request-quote.send_confirmation_email'))
                     ->value(setting('request_quote_send_confirmation', true))
-                    ->toArray()
+                    ->helperText(trans('plugins/fob-request-quote::request-quote.send_confirmation_email_helper'))
             )
             ->add(
                 'request_quote_button_radius',
                 TextField::class,
                 TextFieldOption::make()
-                    ->label('Button Border Radius (px)')
+                    ->label(trans('plugins/fob-request-quote::request-quote.button_radius'))
                     ->value(setting('request_quote_button_radius', 4))
-                    ->toArray()
+                    ->helperText(trans('plugins/fob-request-quote::request-quote.button_radius_helper'))
+            )
+            ->add(
+                'request_quote_show_form_info',
+                OnOffField::class,
+                OnOffFieldOption::make()
+                    ->label(trans('plugins/fob-request-quote::request-quote.show_form_info'))
+                    ->value(setting('request_quote_show_form_info', false))
+                    ->helperText(trans('plugins/fob-request-quote::request-quote.show_form_info_helper'))
+            )
+            ->add(
+                'request_quote_form_info_content',
+                EditorField::class,
+                EditorFieldOption::make()
+                    ->label(trans('plugins/fob-request-quote::request-quote.form_info_content'))
+                    ->value(setting('request_quote_form_info_content', ''))
+                    ->placeholder(trans('plugins/fob-request-quote::request-quote.form_info_content_placeholder'))
+                    ->helperText(trans('plugins/fob-request-quote::request-quote.form_info_content_helper'))
+                    ->maxLength(2000)
             );
     }
 }

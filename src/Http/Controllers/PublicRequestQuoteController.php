@@ -14,9 +14,9 @@ class PublicRequestQuoteController extends BaseController
     {
         try {
             $quote = RequestQuote::query()->create($request->validated());
-            
+
             $quote->load('product');
-            
+
             $emailVariables = [
                 'quote_name' => $quote->name,
                 'quote_email' => $quote->email,
@@ -30,29 +30,29 @@ class PublicRequestQuoteController extends BaseController
                 'admin_link' => route('request-quote.show', $quote->id),
                 'site_title' => setting('admin_title', config('app.name')),
             ];
-            
+
             $emailHandler = EmailHandler::setModule('fob-request-quote')
                 ->setVariableValues($emailVariables);
-            
+
             $receiverEmails = setting('request_quote_receiver_emails', '');
-            
+
             if (empty($receiverEmails)) {
                 $receiverEmails = get_admin_email();
             } else {
                 $receiverEmails = array_map('trim', explode(',', $receiverEmails));
-                $receiverEmails = array_filter($receiverEmails, function($email) {
+                $receiverEmails = array_filter($receiverEmails, function ($email) {
                     return filter_var($email, FILTER_VALIDATE_EMAIL);
                 });
             }
-            
-            if (!empty($receiverEmails)) {
+
+            if (! empty($receiverEmails)) {
                 $emailHandler->sendUsingTemplate('admin-notification', $receiverEmails);
             }
-            
+
             if (setting('request_quote_send_confirmation', true)) {
                 $emailHandler->sendUsingTemplate('customer-confirmation', $quote->email);
             }
-            
+
             return $response
                 ->setMessage(trans('plugins/fob-request-quote::request-quote.success_message'));
         } catch (\Exception $e) {

@@ -7,5 +7,8 @@
     "url": "https://friendsofbotble.com",
     "version": "1.0.0",
     "description": "Add request quote functionality to products",
-    "minimum_core_version": "7.5.0"
+    "minimum_core_version": "7.5.0",
+    "require": [
+        "botble/ecommerce"
+    ]
 }

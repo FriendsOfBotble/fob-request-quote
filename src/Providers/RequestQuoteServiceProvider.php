@@ -71,7 +71,7 @@ class RequestQuoteServiceProvider extends ServiceProvider
 
         $this->app->booted(function () {
             $this->app->register(HookServiceProvider::class);
-            
+
             EmailHandler::addTemplateSettings('fob-request-quote', config('plugins.fob-request-quote.email', []));
         });
     }
