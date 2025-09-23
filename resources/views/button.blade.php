@@ -29,5 +29,6 @@
 .request-quote-btn svg {
     width: 18px;
     height: 18px;
+    margin: 0;
 }
 </style>
