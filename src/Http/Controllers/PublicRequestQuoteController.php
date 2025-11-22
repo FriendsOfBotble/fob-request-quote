@@ -2,21 +2,31 @@
 
 namespace FriendsOfBotble\RequestQuote\Http\Controllers;
 
+use Botble\Base\Facades\BaseHelper;
 use Botble\Base\Facades\EmailHandler;
 use Botble\Base\Http\Controllers\BaseController;
 use Botble\Base\Http\Responses\BaseHttpResponse;
 use FriendsOfBotble\RequestQuote\Http\Requests\RequestQuoteRequest;
 use FriendsOfBotble\RequestQuote\Models\RequestQuote;
+use Throwable;
 
 class PublicRequestQuoteController extends BaseController
 {
     public function submit(RequestQuoteRequest $request, BaseHttpResponse $response)
     {
+        $quote = RequestQuote::query()->create($request->validated());
+
+        $quote->load('product');
+
+        $this->sendEmails($quote);
+
+        return $response
+            ->setMessage(trans('plugins/fob-request-quote::request-quote.success_message'));
+    }
+
+    protected function sendEmails(RequestQuote $quote): void
+    {
         try {
-            $quote = RequestQuote::query()->create($request->validated());
-
-            $quote->load('product');
-
             $emailVariables = [
                 'quote_name' => $quote->name,
                 'quote_email' => $quote->email,
@@ -37,28 +47,29 @@ class PublicRequestQuoteController extends BaseController
             $receiverEmails = setting('request_quote_receiver_emails', '');
 
             if (empty($receiverEmails)) {
-                $receiverEmails = get_admin_email();
+                $receiverEmails = get_admin_email()->all();
             } else {
                 $receiverEmails = array_map('trim', explode(',', $receiverEmails));
-                $receiverEmails = array_filter($receiverEmails, function ($email) {
-                    return filter_var($email, FILTER_VALIDATE_EMAIL);
-                });
+                $receiverEmails = array_filter($receiverEmails, fn ($email) => filter_var($email, FILTER_VALIDATE_EMAIL));
             }
 
             if (! empty($receiverEmails)) {
-                $emailHandler->sendUsingTemplate('admin-notification', $receiverEmails);
+                $adminTemplateContent = $emailHandler->getTemplateContent('admin-notification', 'plugins');
+
+                if (! empty($adminTemplateContent)) {
+                    $emailHandler->sendUsingTemplate('admin-notification', $receiverEmails);
+                }
             }
 
             if (setting('request_quote_send_confirmation', true)) {
-                $emailHandler->sendUsingTemplate('customer-confirmation', $quote->email);
-            }
+                $customerTemplateContent = $emailHandler->getTemplateContent('customer-confirmation', 'plugins');
 
-            return $response
-                ->setMessage(trans('plugins/fob-request-quote::request-quote.success_message'));
-        } catch (\Exception $e) {
-            return $response
-                ->setError()
-                ->setMessage(trans('plugins/fob-request-quote::request-quote.error_message'));
+                if (! empty($customerTemplateContent)) {
+                    $emailHandler->sendUsingTemplate('customer-confirmation', $quote->email);
+                }
+            }
+        } catch (Throwable $e) {
+            BaseHelper::logError($e);
         }
     }
 }
