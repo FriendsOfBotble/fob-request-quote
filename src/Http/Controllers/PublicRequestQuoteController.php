@@ -6,17 +6,30 @@ use Botble\Base\Facades\BaseHelper;
 use Botble\Base\Facades\EmailHandler;
 use Botble\Base\Http\Controllers\BaseController;
 use Botble\Base\Http\Responses\BaseHttpResponse;
+use Botble\Ecommerce\Models\Product;
 use FriendsOfBotble\RequestQuote\Http\Requests\RequestQuoteRequest;
 use FriendsOfBotble\RequestQuote\Models\RequestQuote;
+use FriendsOfBotble\RequestQuote\Services\RequestQuoteService;
 use Throwable;
 
 class PublicRequestQuoteController extends BaseController
 {
-    public function submit(RequestQuoteRequest $request, BaseHttpResponse $response)
-    {
+    public function submit(
+        RequestQuoteRequest $request,
+        BaseHttpResponse $response,
+        RequestQuoteService $requestQuoteService
+    ) {
+        $product = Product::query()->find($request->input('product_id'));
+
+        if (! $product || ! $requestQuoteService->isEnabledForProduct($product)) {
+            return $response
+                ->setError()
+                ->setMessage(trans('plugins/fob-request-quote::request-quote.product_disabled'));
+        }
+
         $quote = RequestQuote::query()->create($request->validated());
 
-        $quote->load('product');
+        $quote->setRelation('product', $product);
 
         $this->sendEmails($quote);
 

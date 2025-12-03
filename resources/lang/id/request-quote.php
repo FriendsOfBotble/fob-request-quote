@@ -27,12 +27,13 @@ return [
     'message' => 'Pesan',
     'your_message' => 'Pesan Anda',
     'message_placeholder' => 'Silakan berikan detail atau persyaratan tambahan...',
-    
+
     'submit' => 'Kirim Permintaan',
     'cancel' => 'Batal',
-    
+
     'success_message' => 'Permintaan penawaran Anda telah berhasil dikirim!',
     'error_message' => 'Terjadi kesalahan saat mengirim permintaan Anda. Silakan coba lagi.',
+    'product_disabled' => 'Permintaan penawaran tidak tersedia untuk produk ini.',
     
     'requests' => 'Permintaan Penawaran',
     'view_request' => 'Lihat Permintaan',
@@ -131,4 +132,10 @@ return [
     'form_info_content' => 'Konten Informasi Tambahan',
     'form_info_content_placeholder' => 'Contoh: <p><strong>Catatan:</strong> Kami merespons dalam 24-48 jam. Pesanan dalam jumlah besar mendapat harga khusus.</p>',
     'form_info_content_helper' => 'Konten ini akan ditampilkan di bagian bawah formulir permintaan penawaran. Gunakan HTML sederhana dengan gaya inline untuk kompatibilitas terbaik di berbagai tema.',
+    'product_settings' => [
+        'title' => 'Permintaan Penawaran',
+        'enable_label' => 'Aktifkan permintaan penawaran untuk produk ini',
+        'enable_helper' => 'Timpa visibilitas Permintaan Penawaran global untuk produk ini.',
+        'inherit_helper' => 'Jika dibiarkan, visibilitas tombol mengikuti pengaturan di Pengaturan → Permintaan Penawaran.',
+    ],
 ];

@@ -27,12 +27,13 @@ return [
     'message' => 'Tin Nhắn',
     'your_message' => 'Tin Nhắn Của Bạn',
     'message_placeholder' => 'Vui lòng cung cấp thêm chi tiết hoặc yêu cầu...',
-    
+
     'submit' => 'Gửi Yêu Cầu',
     'cancel' => 'Hủy',
-    
+
     'success_message' => 'Yêu cầu báo giá của bạn đã được gửi thành công!',
     'error_message' => 'Đã xảy ra lỗi khi gửi yêu cầu. Vui lòng thử lại.',
+    'product_disabled' => 'Yêu cầu báo giá không khả dụng cho sản phẩm này.',
     
     'requests' => 'Yêu Cầu Báo Giá',
     'view_request' => 'Xem Yêu Cầu',
@@ -131,4 +132,10 @@ return [
     'form_info_content' => 'Nội Dung Thông Tin Bổ Sung',
     'form_info_content_placeholder' => 'Ví dụ: <p><strong>Lưu ý:</strong> Chúng tôi phản hồi trong 24-48 giờ. Đơn hàng số lượng lớn nhận giá ưu đãi.</p>',
     'form_info_content_helper' => 'Nội dung này sẽ hiển thị ở cuối biểu mẫu yêu cầu báo giá. Sử dụng HTML đơn giản với style nội tuyến để tương thích tốt nhất với các giao diện.',
+    'product_settings' => [
+        'title' => 'Yêu Cầu Báo Giá',
+        'enable_label' => 'Bật yêu cầu báo giá cho sản phẩm này',
+        'enable_helper' => 'Ghi đè hiển thị Yêu Cầu Báo Giá toàn cục cho sản phẩm này.',
+        'inherit_helper' => 'Nếu không thay đổi, việc hiển thị nút sẽ theo cài đặt tại Cài Đặt → Yêu Cầu Báo Giá.',
+    ],
 ];

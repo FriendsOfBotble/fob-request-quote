@@ -27,12 +27,13 @@ return [
     'message' => 'Mesaj',
     'your_message' => 'Mesajınız',
     'message_placeholder' => 'Lütfen ek detayları veya gereksinimleri belirtin...',
-    
+
     'submit' => 'Talebi Gönder',
     'cancel' => 'İptal',
-    
+
     'success_message' => 'Fiyat teklifi talebiniz başarıyla gönderildi!',
     'error_message' => 'Talebinizi gönderirken bir hata oluştu. Lütfen tekrar deneyin.',
+    'product_disabled' => 'Bu ürün için teklif talebi kullanılamıyor.',
     
     'requests' => 'Fiyat Talepleri',
     'view_request' => 'Talebi Görüntüle',
@@ -131,4 +132,10 @@ return [
     'form_info_content' => 'Ek Bilgi İçeriği',
     'form_info_content_placeholder' => 'Örnek: <p><strong>Not:</strong> 24-48 saat içinde yanıt veriyoruz. Toplu siparişler özel fiyat alır.</p>',
     'form_info_content_helper' => 'Bu içerik fiyat teklifi talep formunun altında görüntülenecektir. Temalar arasında en iyi uyumluluk için satır içi stillerle basit HTML kullanın.',
+    'product_settings' => [
+        'title' => 'Teklif Talebi',
+        'enable_label' => 'Bu ürün için teklif talebini etkinleştir',
+        'enable_helper' => 'Bu ürün için genel Teklif Talebi görünürlüğünü geçersiz kılın.',
+        'inherit_helper' => 'Değiştirilmezse buton görünürlüğü Ayarlar → Teklif Talebi ayarlarını takip eder.',
+    ],
 ];

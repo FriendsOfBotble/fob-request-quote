@@ -33,6 +33,7 @@ return [
     
     'success_message' => 'Votre demande de devis a été envoyée avec succès !',
     'error_message' => 'Une erreur s\'est produite lors de l\'envoi de votre demande. Veuillez réessayer.',
+    'product_disabled' => 'La demande de devis n’est pas disponible pour ce produit.',
     
     'requests' => 'Demandes de Devis',
     'view_request' => 'Voir la Demande',
@@ -131,4 +132,10 @@ return [
     'form_info_content' => 'Contenu des Informations Supplémentaires',
     'form_info_content_placeholder' => 'Exemple : <p><strong>Note :</strong> Nous répondons sous 24-48 heures. Les commandes en gros bénéficient de tarifs spéciaux.</p>',
     'form_info_content_helper' => 'Ce contenu sera affiché en bas du formulaire de demande de devis. Utilisez du HTML simple avec des styles en ligne pour une meilleure compatibilité entre les thèmes.',
+    'product_settings' => [
+        'title' => 'Demande de Devis',
+        'enable_label' => 'Activer la demande de devis pour ce produit',
+        'enable_helper' => 'Remplacer la visibilité globale de Demande de Devis pour ce produit.',
+        'inherit_helper' => 'Si laissé tel quel, la visibilité du bouton suit les paramètres dans Paramètres → Demande de Devis.',
+    ],
 ];

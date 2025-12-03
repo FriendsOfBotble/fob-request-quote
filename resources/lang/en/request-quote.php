@@ -33,6 +33,7 @@ return [
     
     'success_message' => 'Your quote request has been submitted successfully!',
     'error_message' => 'An error occurred while submitting your request. Please try again.',
+    'product_disabled' => 'Request a quote is not available for this product.',
     
     'requests' => 'Quote Requests',
     'view_request' => 'View Request',
@@ -131,4 +132,10 @@ return [
     'form_info_content' => 'Additional Information Content',
     'form_info_content_placeholder' => 'Example: <p><strong>Note:</strong> We respond within 24-48 hours. Bulk orders receive special pricing.</p>',
     'form_info_content_helper' => 'This content will be displayed at the bottom of the request quote form. Use simple HTML with inline styles for best compatibility across themes.',
+    'product_settings' => [
+        'title' => 'Request Quote',
+        'enable_label' => 'Enable request quote for this product',
+        'enable_helper' => 'Override the global Request Quote visibility for this product.',
+        'inherit_helper' => 'If left unchanged, the button visibility follows the settings in Settings → Request Quote.',
+    ],
 ];

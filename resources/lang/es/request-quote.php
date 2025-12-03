@@ -33,6 +33,7 @@ return [
     
     'success_message' => '¡Su solicitud de cotización ha sido enviada exitosamente!',
     'error_message' => 'Ocurrió un error al enviar su solicitud. Por favor intente nuevamente.',
+    'product_disabled' => 'La solicitud de cotización no está disponible para este producto.',
     
     'requests' => 'Solicitudes de Cotización',
     'view_request' => 'Ver Solicitud',
@@ -131,4 +132,10 @@ return [
     'form_info_content' => 'Contenido de Información Adicional',
     'form_info_content_placeholder' => 'Ejemplo: <p><strong>Nota:</strong> Respondemos dentro de 24-48 horas. Los pedidos al por mayor reciben precios especiales.</p>',
     'form_info_content_helper' => 'Este contenido se mostrará en la parte inferior del formulario de solicitud de cotización. Use HTML simple con estilos en línea para mejor compatibilidad entre temas.',
+    'product_settings' => [
+        'title' => 'Solicitar Cotización',
+        'enable_label' => 'Habilitar solicitud de cotización para este producto',
+        'enable_helper' => 'Sobrescribe la visibilidad global de Solicitar Cotización para este producto.',
+        'inherit_helper' => 'Si no se modifica, la visibilidad del botón sigue la configuración en Configuración → Solicitar Cotización.',
+    ],
 ];
