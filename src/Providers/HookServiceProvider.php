@@ -11,15 +11,17 @@ class HookServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
-        add_filter(ECOMMERCE_PRODUCT_DETAIL_EXTRA_HTML, function ($html, $product) {
-            $requestQuoteService = app(RequestQuoteService::class);
+        if (defined('ECOMMERCE_PRODUCT_DETAIL_EXTRA_HTML')) {
+            add_filter(ECOMMERCE_PRODUCT_DETAIL_EXTRA_HTML, function ($html, $product) {
+                $requestQuoteService = app(RequestQuoteService::class);
 
-            if ($requestQuoteService->isEnabledForProduct($product)) {
-                return $html . view('plugins/fob-request-quote::button', compact('product'));
-            }
+                if ($requestQuoteService->isEnabledForProduct($product)) {
+                    return $html . view('plugins/fob-request-quote::button', compact('product'));
+                }
 
-            return $html;
-        }, 200, 2);
+                return $html;
+            }, 200, 2);
+        }
 
         add_filter(THEME_FRONT_FOOTER, function (?string $data): ?string {
             if (setting('request_quote_enabled', true)) {
@@ -28,6 +30,10 @@ class HookServiceProvider extends ServiceProvider
 
             return $data;
         }, 200);
+
+        if (! class_exists(Product::class)) {
+            return;
+        }
 
         add_action(BASE_ACTION_META_BOXES, function ($context, $object) {
             if (get_class($object) === Product::class && $context === 'advanced') {
