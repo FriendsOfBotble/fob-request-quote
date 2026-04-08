@@ -7,6 +7,10 @@ use Illuminate\Support\Facades\Schema;
 return new class () extends Migration {
     public function up(): void
     {
+        if (Schema::hasTable('fob_request_quotes')) {
+            return;
+        }
+
         Schema::create('fob_request_quotes', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_id')->constrained('ec_products')->cascadeOnDelete();
