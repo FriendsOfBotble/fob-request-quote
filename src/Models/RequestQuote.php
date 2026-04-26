@@ -18,6 +18,10 @@ class RequestQuote extends BaseModel
         'phone',
         'company',
         'quantity',
+        'state',
+        'city',
+        'address',
+        'attributes',
         'message',
         'status',
         'admin_notes',
@@ -25,6 +29,7 @@ class RequestQuote extends BaseModel
 
     protected $casts = [
         'quantity' => 'integer',
+        'attributes' => 'array',
         'status' => RequestQuoteStatusEnum::class,
     ];
 

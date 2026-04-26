@@ -4,14 +4,17 @@ namespace FriendsOfBotble\RequestQuote\Forms\Settings;
 
 use Botble\Base\Forms\FieldOptions\CoreIconFieldOption;
 use Botble\Base\Forms\FieldOptions\EditorFieldOption;
+use Botble\Base\Forms\FieldOptions\HtmlFieldOption;
 use Botble\Base\Forms\FieldOptions\OnOffFieldOption;
 use Botble\Base\Forms\FieldOptions\TextFieldOption;
 use Botble\Base\Forms\Fields\CoreIconField;
 use Botble\Base\Forms\Fields\EditorField;
+use Botble\Base\Forms\Fields\HtmlField;
 use Botble\Base\Forms\Fields\OnOffField;
 use Botble\Base\Forms\Fields\TextField;
 use Botble\Setting\Forms\SettingForm;
 use FriendsOfBotble\RequestQuote\Http\Requests\Settings\RequestQuoteSettingRequest;
+use FriendsOfBotble\RequestQuote\Support\RequestQuoteFields;
 
 class RequestQuoteSettingForm extends SettingForm
 {
@@ -30,15 +33,6 @@ class RequestQuoteSettingForm extends SettingForm
                     ->label(trans('plugins/fob-request-quote::request-quote.enable_request_quote'))
                     ->value(setting('request_quote_enabled', true))
                     ->helperText(trans('plugins/fob-request-quote::request-quote.enable_request_quote_helper'))
-            )
-            ->add(
-                'request_quote_receiver_emails',
-                TextField::class,
-                TextFieldOption::make()
-                    ->label(trans('plugins/fob-request-quote::request-quote.receiver_emails'))
-                    ->value(setting('request_quote_receiver_emails', ''))
-                    ->placeholder(trans('plugins/fob-request-quote::request-quote.receiver_emails_placeholder'))
-                    ->helperText(trans('plugins/fob-request-quote::request-quote.receiver_emails_helper'))
             )
             ->add(
                 'request_quote_button_icon',
@@ -73,6 +67,12 @@ class RequestQuoteSettingForm extends SettingForm
                     ->helperText(trans('plugins/fob-request-quote::request-quote.send_confirmation_email_helper'))
             )
             ->add(
+                'field_settings_heading',
+                HtmlField::class,
+                HtmlFieldOption::make()
+                    ->content($this->fieldSettingsHtml())
+            )
+            ->add(
                 'request_quote_button_radius',
                 TextField::class,
                 TextFieldOption::make()
@@ -98,5 +98,84 @@ class RequestQuoteSettingForm extends SettingForm
                     ->helperText(trans('plugins/fob-request-quote::request-quote.form_info_content_helper'))
                     ->maxLength(2000)
             );
+    }
+
+    protected function fieldSettingsHtml(): string
+    {
+        $rows = '';
+
+        foreach (RequestQuoteFields::FIELDS as $field) {
+            $label = e(RequestQuoteFields::label($field));
+            $enabledChecked = requestQuoteFieldIsEnabled($field) ? ' checked' : '';
+            $requiredChecked = requestQuoteFieldIsRequired($field) ? ' checked' : '';
+
+            $rows .= <<<HTML
+                <tr>
+                    <td>
+                        <div class="fw-medium">{$label}</div>
+                    </td>
+                    <td class="text-center">
+                        <label class="form-check form-switch justify-content-center mb-0">
+                            <input class="form-check-input request-quote-field-toggle" type="checkbox" name="request_quote_enabled_fields[{$field}]" value="1" data-field="{$field}"{$enabledChecked}>
+                        </label>
+                    </td>
+                    <td class="text-center">
+                        <label class="form-check form-switch justify-content-center mb-0">
+                            <input class="form-check-input request-quote-field-required" type="checkbox" name="request_quote_required_fields[{$field}]" value="1" data-field="{$field}"{$requiredChecked}>
+                        </label>
+                    </td>
+                </tr>
+            HTML;
+        }
+
+        return sprintf(
+            <<<'HTML'
+                <div class="request-quote-field-settings mt-4">
+                    <div class="mb-3">
+                        <h4 class="mb-1">%s</h4>
+                        <p class="text-muted mb-0">%s</p>
+                    </div>
+                    <div class="table-responsive border rounded">
+                        <table class="table table-vcenter card-table mb-0">
+                            <thead>
+                                <tr>
+                                    <th>%s</th>
+                                    <th class="text-center" style="width: 140px;">%s</th>
+                                    <th class="text-center" style="width: 140px;">%s</th>
+                                </tr>
+                            </thead>
+                            <tbody>%s</tbody>
+                        </table>
+                    </div>
+                </div>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        document.querySelectorAll('.request-quote-field-toggle').forEach(function (toggle) {
+                            function syncRequiredState() {
+                                var required = document.querySelector('.request-quote-field-required[data-field="' + toggle.dataset.field + '"]');
+                                if (!required) {
+                                    return;
+                                }
+
+                                required.disabled = !toggle.checked;
+
+                                if (!toggle.checked) {
+                                    required.checked = false;
+                                }
+                            }
+
+                            toggle.addEventListener('change', syncRequiredState);
+                            syncRequiredState();
+                        });
+                    });
+                </script>
+            HTML,
+            e(trans('plugins/fob-request-quote::request-quote.field_settings')),
+            e(trans('plugins/fob-request-quote::request-quote.field_settings_helper')),
+            e(trans('plugins/fob-request-quote::request-quote.field_name')),
+            e(trans('plugins/fob-request-quote::request-quote.field_visible')),
+            e(trans('plugins/fob-request-quote::request-quote.field_required')),
+            $rows
+        );
     }
 }

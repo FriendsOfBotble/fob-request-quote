@@ -10,7 +10,7 @@ return [
         'title' => 'Request Quote',
         'description' => 'Configure request quote functionality',
     ],
-    
+
     'modal_title' => 'Request a Quote',
     'product' => 'Product',
     'sku' => 'SKU',
@@ -24,17 +24,27 @@ return [
     'company_placeholder' => 'Enter your company name',
     'quantity' => 'Quantity',
     'quantity_placeholder' => 'Enter quantity',
+    'state' => 'State',
+    'select_state' => 'Select state...',
+    'city' => 'City',
+    'select_city' => 'Select city...',
+    'address' => 'Address',
+    'address_placeholder' => 'Full Address',
+    'attributes' => 'Attributes',
+    'attributes_helper' => 'Selected product options are captured automatically when available.',
+    'color' => 'Color',
+    'size' => 'Size',
     'message' => 'Message',
     'your_message' => 'Your Message',
     'message_placeholder' => 'Please provide any additional details or requirements...',
-    
+
     'submit' => 'Submit Request',
     'cancel' => 'Cancel',
-    
+
     'success_message' => 'Your quote request has been submitted successfully!',
     'error_message' => 'An error occurred while submitting your request. Please try again.',
     'product_disabled' => 'Request a quote is not available for this product.',
-    
+
     'requests' => 'Quote Requests',
     'view_request' => 'View Request',
     'delete_request' => 'Delete Request',
@@ -52,7 +62,7 @@ return [
     'are_you_sure' => 'Are you sure?',
     'confirm_delete_message' => 'This action cannot be undone. This will permanently delete the quote request.',
     'delete_confirm' => 'Yes, Delete',
-    
+
     'statuses' => [
         'pending' => 'Pending',
         'processing' => 'Processing',
@@ -64,7 +74,7 @@ return [
     'confirm_mark_as_processing' => 'Are you sure you want to mark this quote as processing?',
     'confirm_mark_as_completed' => 'Are you sure you want to mark this quote as completed?',
     'confirm' => 'Confirm',
-    
+
     'email' => [
         'title' => 'Request Quote Email',
         'description' => 'Email configuration for request quote notifications',
@@ -82,21 +92,25 @@ return [
         'thank_you' => 'Thank you for your interest in our products!',
         'view_in_admin' => 'View Request',
         'admin_footer' => 'This is an automated notification from your website.',
-        
+
         'templates' => [
             'admin_notification_title' => 'Admin notification',
             'admin_notification_description' => 'Email template for admin when a new quote request is submitted',
             'admin_notification_subject' => 'New Quote Request: {{ product_name }}',
-            
+
             'customer_confirmation_title' => 'Customer confirmation',
             'customer_confirmation_description' => 'Email template for customer quote request confirmation',
             'customer_confirmation_subject' => 'Quote Request Received - {{ site_title }}',
-            
+
             'quote_name' => 'Customer name',
             'quote_email' => 'Customer email',
             'quote_phone' => 'Customer phone',
             'quote_company' => 'Company name',
             'quote_quantity' => 'Requested quantity',
+            'quote_state' => 'Customer state',
+            'quote_city' => 'Customer city',
+            'quote_address' => 'Customer address',
+            'quote_attributes' => 'Selected product attributes',
             'quote_message' => 'Customer message',
             'product_name' => 'Product name',
             'product_sku' => 'Product SKU',
@@ -105,14 +119,18 @@ return [
             'site_title' => 'Site title',
         ],
     ],
-    
+
     'setting_title' => 'Request Quote Configuration',
     'general_settings' => 'General Settings',
     'enable_request_quote' => 'Enable Request Quote',
     'enable_request_quote_helper' => 'When enabled, the Request Quote button will be displayed on product pages and customers can submit quote requests.',
-    'receiver_emails' => 'Receiver Emails',
-    'receiver_emails_placeholder' => 'Enter email addresses separated by commas',
-    'receiver_emails_helper' => 'Enter one or more email addresses separated by commas (e.g., sales@example.com, quotes@example.com). If left empty, notifications will be sent to the admin email configured in Settings → General.',
+    'field_settings' => 'Form Fields',
+    'field_settings_helper' => 'Choose which fields appear on the request quote form and which visible fields are mandatory.',
+    'field_name' => 'Field',
+    'field_visible' => 'Visible',
+    'field_required' => 'Required',
+    'enable_field' => 'Show :field field',
+    'require_field' => 'Require :field field',
     'button_settings' => 'Button Settings',
     'button_icon' => 'Button Icon',
     'button_icon_helper' => 'Select an icon to display on the Request Quote button. This helps make the button more recognizable.',

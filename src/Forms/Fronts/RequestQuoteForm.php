@@ -16,9 +16,12 @@ use Botble\Base\Forms\Fields\NumberField;
 use Botble\Base\Forms\Fields\TextareaField;
 use Botble\Base\Forms\Fields\TextField;
 use Botble\Base\Forms\FormAbstract;
+use Botble\Ecommerce\Facades\EcommerceHelper;
 use Botble\Theme\FormFront;
 use FriendsOfBotble\RequestQuote\Http\Requests\RequestQuoteRequest;
 use FriendsOfBotble\RequestQuote\Models\RequestQuote;
+use FriendsOfBotble\RequestQuote\Support\RequestQuoteFields;
+use Illuminate\Database\Eloquent\Builder;
 
 class RequestQuoteForm extends FormFront
 {
@@ -46,115 +49,43 @@ class RequestQuoteForm extends FormFront
                     ->addAttribute('id', 'quote_product_id')
             )
             ->add(
+                'request_quote_hp',
+                TextField::class,
+                TextFieldOption::make()
+                    ->label('')
+                    ->cssClass('form-control')
+                    ->addAttribute('tabindex', '-1')
+                    ->addAttribute('autocomplete', 'off')
+                    ->wrapperAttributes(['style' => 'display:none'])
+            )
+            ->add(
                 'product_display',
                 HtmlField::class,
                 HtmlFieldOption::make()
                     ->content(
                         '<div class="mb-3">
                             <p class="text-muted mb-3">
-                                <strong>' . trans('plugins/fob-request-quote::request-quote.product') . ':</strong>
+                                <strong>'.trans('plugins/fob-request-quote::request-quote.product').':</strong>
                                 <span id="quote_product_name">-</span>
-                                <br><small class="text-muted">' . trans('plugins/fob-request-quote::request-quote.sku') . ': <span id="quote_product_sku">-</span></small>
+                                <br><small class="text-muted">'.trans('plugins/fob-request-quote::request-quote.sku').': <span id="quote_product_sku">-</span></small>
                             </p>
                         </div>'
                     )
-            )
-            ->add('row_start_1', HtmlField::class, HtmlFieldOption::make()->content('<div class="row">'))
-            ->add('col_start_1', HtmlField::class, HtmlFieldOption::make()->content('<div class="col-md-6 mb-3">'))
-            ->add(
-                'name',
-                TextField::class,
-                TextFieldOption::make()
-                    ->label(trans('plugins/fob-request-quote::request-quote.name'))
-                    ->required()
-                    ->cssClass('form-control')
-                    ->labelAttributes(['class' => 'form-label required'])
-                    ->placeholder(trans('plugins/fob-request-quote::request-quote.name_placeholder'))
-                    ->addAttribute('id', 'quote_name')
-                    ->wrapperAttributes(false)
-            )
-            ->add('col_end_1', HtmlField::class, HtmlFieldOption::make()->content('</div>'))
-            ->add('col_start_2', HtmlField::class, HtmlFieldOption::make()->content('<div class="col-md-6 mb-3">'))
-            ->add(
-                'email',
-                EmailField::class,
-                EmailFieldOption::make()
-                    ->label(trans('plugins/fob-request-quote::request-quote.email_address'))
-                    ->required()
-                    ->cssClass('form-control')
-                    ->labelAttributes(['class' => 'form-label required'])
-                    ->placeholder(trans('plugins/fob-request-quote::request-quote.email_placeholder'))
-                    ->addAttribute('id', 'quote_email')
-                    ->wrapperAttributes(false)
-            )
-            ->add('col_end_2', HtmlField::class, HtmlFieldOption::make()->content('</div>'))
-            ->add('row_end_1', HtmlField::class, HtmlFieldOption::make()->content('</div>'))
-            ->add('row_start_2', HtmlField::class, HtmlFieldOption::make()->content('<div class="row">'))
-            ->add('col_start_3', HtmlField::class, HtmlFieldOption::make()->content('<div class="col-md-6 mb-3">'))
-            ->add(
-                'phone',
-                TextField::class,
-                TextFieldOption::make()
-                    ->label(trans('plugins/fob-request-quote::request-quote.phone'))
-                    ->cssClass('form-control')
-                    ->labelAttributes(['class' => 'form-label'])
-                    ->placeholder(trans('plugins/fob-request-quote::request-quote.phone_placeholder'))
-                    ->addAttribute('id', 'quote_phone')
-                    ->addAttribute('type', 'tel')
-                    ->wrapperAttributes(false)
-            )
-            ->add('col_end_3', HtmlField::class, HtmlFieldOption::make()->content('</div>'))
-            ->add('col_start_4', HtmlField::class, HtmlFieldOption::make()->content('<div class="col-md-6 mb-3">'))
-            ->add(
-                'company',
-                TextField::class,
-                TextFieldOption::make()
-                    ->label(trans('plugins/fob-request-quote::request-quote.company'))
-                    ->cssClass('form-control')
-                    ->labelAttributes(['class' => 'form-label'])
-                    ->placeholder(trans('plugins/fob-request-quote::request-quote.company_placeholder'))
-                    ->addAttribute('id', 'quote_company')
-                    ->wrapperAttributes(false)
-            )
-            ->add('col_end_4', HtmlField::class, HtmlFieldOption::make()->content('</div>'))
-            ->add('row_end_2', HtmlField::class, HtmlFieldOption::make()->content('</div>'))
-            ->add('quantity_wrapper_start', HtmlField::class, HtmlFieldOption::make()->content('<div class="mb-3">'))
-            ->add(
-                'quantity',
-                NumberField::class,
-                NumberFieldOption::make()
-                    ->label(trans('plugins/fob-request-quote::request-quote.quantity'))
-                    ->required()
-                    ->cssClass('form-control')
-                    ->labelAttributes(['class' => 'form-label required'])
-                    ->placeholder(trans('plugins/fob-request-quote::request-quote.quantity_placeholder'))
-                    ->addAttribute('id', 'quote_quantity')
-                    ->addAttribute('min', '1')
-                    ->value(1)
-                    ->wrapperAttributes(false)
-            )
-            ->add('quantity_wrapper_end', HtmlField::class, HtmlFieldOption::make()->content('</div>'))
-            ->add('message_wrapper_start', HtmlField::class, HtmlFieldOption::make()->content('<div class="mb-3">'))
-            ->add(
-                'message',
-                TextareaField::class,
-                TextareaFieldOption::make()
-                    ->label(trans('plugins/fob-request-quote::request-quote.message'))
-                    ->cssClass('form-control')
-                    ->labelAttributes(['class' => 'form-label'])
-                    ->addAttribute('id', 'quote_message')
-                    ->rows(3)
-                    ->placeholder(trans('plugins/fob-request-quote::request-quote.message_placeholder'))
-                    ->wrapperAttributes(false)
-            )
-            ->add('message_wrapper_end', HtmlField::class, HtmlFieldOption::make()->content('</div>'))
+            );
+
+        $this->addBasicFields();
+        $this->addLocationFields();
+        $this->addAttributesField();
+        $this->addMessageField();
+
+        $this
             ->add(
                 'messages',
                 HtmlField::class,
                 HtmlFieldOption::make()
                     ->content(
-                        '<div class="alert alert-info d-none" id="quoteSuccessMessage">' .
-                        trans('plugins/fob-request-quote::request-quote.success_message') .
+                        '<div class="alert alert-info d-none" id="quoteSuccessMessage">'.
+                        trans('plugins/fob-request-quote::request-quote.success_message').
                         '</div>
                         <div class="alert alert-danger d-none" id="quoteErrorMessage"></div>'
                     )
@@ -168,5 +99,278 @@ class RequestQuoteForm extends FormFront
                             ->content(BaseHelper::clean(setting('request_quote_form_info_content')))
                     );
             });
+    }
+
+    protected function addBasicFields(): void
+    {
+        $this->add('row_start_1', HtmlField::class, HtmlFieldOption::make()->content('<div class="row">'));
+
+        $this->addTextColumn('name', TextField::class, TextFieldOption::make()
+            ->placeholder(trans('plugins/fob-request-quote::request-quote.name_placeholder'))
+            ->addAttribute('id', 'quote_name'));
+
+        $this->addTextColumn('email', EmailField::class, EmailFieldOption::make()
+            ->placeholder(trans('plugins/fob-request-quote::request-quote.email_placeholder'))
+            ->addAttribute('id', 'quote_email')
+            ->addAttribute('pattern', '^[A-Za-z0-9._%+\\-]+@[A-Za-z0-9.\\-]+\\.[A-Za-z]{2,}$'));
+
+        $this->addTextColumn('phone', TextField::class, TextFieldOption::make()
+            ->placeholder(trans('plugins/fob-request-quote::request-quote.phone_placeholder'))
+            ->addAttribute('id', 'quote_phone')
+            ->addAttribute('type', 'tel')
+            ->addAttribute('inputmode', 'numeric')
+            ->addAttribute('pattern', '^[0-9]{9,20}$')
+            ->addAttribute('minlength', '9')
+            ->addAttribute('maxlength', '20'));
+
+        $this->addTextColumn('company', TextField::class, TextFieldOption::make()
+            ->placeholder(trans('plugins/fob-request-quote::request-quote.company_placeholder'))
+            ->addAttribute('id', 'quote_company'));
+
+        $this->add('row_end_1', HtmlField::class, HtmlFieldOption::make()->content('</div>'));
+
+        if (requestQuoteFieldIsEnabled('quantity')) {
+            $this->add('quantity_wrapper_start', HtmlField::class, HtmlFieldOption::make()->content('<div class="mb-3">'))
+                ->add(
+                    'quantity',
+                    NumberField::class,
+                    NumberFieldOption::make()
+                        ->label(RequestQuoteFields::label('quantity'))
+                        ->cssClass('form-control')
+                        ->labelAttributes(['class' => $this->labelClass('quantity')])
+                        ->placeholder(trans('plugins/fob-request-quote::request-quote.quantity_placeholder'))
+                        ->addAttribute('id', 'quote_quantity')
+                        ->addAttribute('min', '1')
+                        ->addAttribute('required', requestQuoteFieldIsRequired('quantity') ? 'required' : null)
+                        ->value(1)
+                        ->wrapperAttributes(false)
+                )
+                ->add('quantity_wrapper_end', HtmlField::class, HtmlFieldOption::make()->content('</div>'));
+        }
+    }
+
+    protected function addTextColumn(string $field, string $fieldClass, TextFieldOption|EmailFieldOption $options): void
+    {
+        if (! requestQuoteFieldIsEnabled($field)) {
+            return;
+        }
+
+        $this
+            ->add("col_start_$field", HtmlField::class, HtmlFieldOption::make()->content('<div class="col-md-6 mb-3">'))
+            ->add(
+                $field,
+                $fieldClass,
+                $options
+                    ->label(RequestQuoteFields::label($field))
+                    ->cssClass('form-control')
+                    ->labelAttributes(['class' => $this->labelClass($field)])
+                    ->addAttribute('required', requestQuoteFieldIsRequired($field) ? 'required' : null)
+                    ->wrapperAttributes(false)
+            )
+            ->add("col_end_$field", HtmlField::class, HtmlFieldOption::make()->content('</div>'));
+    }
+
+    protected function addLocationFields(): void
+    {
+        $hasState = requestQuoteFieldIsEnabled('state');
+        $hasCity = requestQuoteFieldIsEnabled('city');
+
+        if ($hasState || $hasCity) {
+            $this->add(
+                'location_fields',
+                HtmlField::class,
+                HtmlFieldOption::make()->content($this->locationFieldsHtml($hasState, $hasCity))
+            );
+        }
+
+        if (requestQuoteFieldIsEnabled('address')) {
+            $this->add('address_wrapper_start', HtmlField::class, HtmlFieldOption::make()->content('<div class="mb-3">'))
+                ->add(
+                    'address',
+                    TextField::class,
+                    TextFieldOption::make()
+                        ->label(RequestQuoteFields::label('address'))
+                        ->cssClass('form-control')
+                        ->labelAttributes(['class' => $this->labelClass('address')])
+                        ->placeholder(trans('plugins/fob-request-quote::request-quote.address_placeholder'))
+                        ->addAttribute('id', 'quote_address')
+                        ->addAttribute('required', requestQuoteFieldIsRequired('address') ? 'required' : null)
+                        ->wrapperAttributes(false)
+                )
+                ->add('address_wrapper_end', HtmlField::class, HtmlFieldOption::make()->content('</div>'));
+        }
+    }
+
+    protected function addAttributesField(): void
+    {
+        if (! requestQuoteFieldIsEnabled('attributes')) {
+            return;
+        }
+
+        $required = requestQuoteFieldIsRequired('attributes') ? ' data-required="1"' : '';
+
+        $this->add(
+            'quote_attributes',
+            HtmlField::class,
+            HtmlFieldOption::make()->content(sprintf(
+                '<div class="mb-3" id="quote_attributes_wrapper"%s>
+                    <label class="%s">%s</label>
+                    <div class="row g-2" id="quote_attributes_fields"></div>
+                    <small class="text-muted">%s</small>
+                </div>',
+                $required,
+                $this->labelClass('attributes'),
+                RequestQuoteFields::label('attributes'),
+                trans('plugins/fob-request-quote::request-quote.attributes_helper')
+            ))
+        );
+    }
+
+    protected function addMessageField(): void
+    {
+        if (! requestQuoteFieldIsEnabled('message')) {
+            return;
+        }
+
+        $this->add('message_wrapper_start', HtmlField::class, HtmlFieldOption::make()->content('<div class="mb-3">'))
+            ->add(
+                'message',
+                TextareaField::class,
+                TextareaFieldOption::make()
+                    ->label(RequestQuoteFields::label('message'))
+                    ->cssClass('form-control')
+                    ->labelAttributes(['class' => $this->labelClass('message')])
+                    ->addAttribute('id', 'quote_message')
+                    ->addAttribute('required', requestQuoteFieldIsRequired('message') ? 'required' : null)
+                    ->rows(3)
+                    ->placeholder(trans('plugins/fob-request-quote::request-quote.message_placeholder'))
+                    ->wrapperAttributes(false)
+            )
+            ->add('message_wrapper_end', HtmlField::class, HtmlFieldOption::make()->content('</div>'));
+    }
+
+    protected function locationFieldsHtml(bool $hasState, bool $hasCity): string
+    {
+        $states = $this->states();
+        [$statesUrl, $citiesUrl] = $this->locationUrls();
+        $countryId = $this->countryId();
+
+        $html = '<input type="hidden" name="country" id="quote_country" value="'.e($countryId).'"><div class="row">';
+
+        if ($hasState) {
+            $html .= '<div class="col-md-6 mb-3">
+                <label class="'.e($this->labelClass('state')).'" for="quote_state">'.e(RequestQuoteFields::label('state')).'</label>
+                <select name="state" id="quote_state" class="form-select" data-states-url="'.e($statesUrl).'" data-cities-url="'.e($citiesUrl).'"'.(requestQuoteFieldIsRequired('state') ? ' required' : '').'>
+                    <option value="">'.e(trans('plugins/fob-request-quote::request-quote.select_state')).'</option>';
+
+            foreach ($states as $stateId => $stateName) {
+                $html .= '<option value="'.e($stateId).'">'.e($stateName).'</option>';
+            }
+
+            $html .= '</select></div>';
+        }
+
+        if ($hasCity) {
+            $html .= '<div class="col-md-6 mb-3">
+                <label class="'.e($this->labelClass('city')).'" for="quote_city">'.e(RequestQuoteFields::label('city')).'</label>
+                <select name="city" id="quote_city" class="form-select" data-cities-url="'.e($citiesUrl).'"'.(requestQuoteFieldIsRequired('city') ? ' required' : '').'>
+                    <option value="">'.e(trans('plugins/fob-request-quote::request-quote.select_city')).'</option>
+                </select>
+            </div>';
+        }
+
+        return $html.'</div>';
+    }
+
+    protected function labelClass(string $field): string
+    {
+        return requestQuoteFieldIsRequired($field) ? 'form-label required' : 'form-label';
+    }
+
+    protected function states(): array
+    {
+        $modelClass = 'Botble\\Location\\Models\\State';
+
+        if (! is_plugin_active('location') || ! class_exists($modelClass)) {
+            return [];
+        }
+
+        $countryId = $this->countryId();
+
+        return $modelClass::query()
+            ->select(['id', 'name'])
+            ->wherePublished()
+            ->when($countryId, function (Builder $query) use ($countryId): void {
+                $query->whereHas('country', function (Builder $query) use ($countryId): void {
+                    $query
+                        ->where('id', $countryId)
+                        ->orWhere('code', $countryId);
+                });
+            })
+            ->orderBy('order')
+            ->orderBy('name')
+            ->pluck('name', 'id')
+            ->all();
+    }
+
+    protected function countryId(): string
+    {
+        $countryId = (string) (EcommerceHelper::getDefaultCountryId() ?: EcommerceHelper::getFirstCountryId());
+
+        if ($this->hasStatesForCountry($countryId)) {
+            return $countryId;
+        }
+
+        $countryClass = 'Botble\\Location\\Models\\Country';
+
+        if (! is_plugin_active('location') || ! class_exists($countryClass)) {
+            return $countryId;
+        }
+
+        $countryWithStates = $countryClass::query()
+            ->wherePublished()
+            ->whereHas('states')
+            ->orderByRaw("CASE WHEN code = 'DZ' THEN 0 ELSE 1 END")
+            ->orderBy('order')
+            ->orderBy('name')
+            ->first();
+
+        return (string) ($countryWithStates?->code ?: $countryWithStates?->getKey() ?: $countryId);
+    }
+
+    protected function locationUrls(): array
+    {
+        $statesUrl = '/ajax/states-by-country';
+        $citiesUrl = '/ajax/cities-by-state';
+
+        try {
+            $statesUrl = route('ajax.states-by-country', [], false);
+        } catch (\Throwable) {
+        }
+
+        try {
+            $citiesUrl = route('ajax.cities-by-state', [], false);
+        } catch (\Throwable) {
+        }
+
+        return [$statesUrl, $citiesUrl];
+    }
+
+    protected function hasStatesForCountry(?string $countryId): bool
+    {
+        $modelClass = 'Botble\\Location\\Models\\State';
+
+        if (! $countryId || ! is_plugin_active('location') || ! class_exists($modelClass)) {
+            return false;
+        }
+
+        return $modelClass::query()
+            ->wherePublished()
+            ->whereHas('country', function (Builder $query) use ($countryId): void {
+                $query
+                    ->where('id', $countryId)
+                    ->orWhere('code', $countryId);
+            })
+            ->exists();
     }
 }

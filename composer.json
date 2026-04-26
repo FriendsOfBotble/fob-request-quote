@@ -4,6 +4,9 @@
     "type": "package",
     "require": {},
     "autoload": {
+        "files": [
+            "helpers/helpers.php"
+        ],
         "psr-4": {
             "FriendsOfBotble\\RequestQuote\\": "src/"
         }

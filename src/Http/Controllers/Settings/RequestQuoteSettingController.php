@@ -18,6 +18,25 @@ class RequestQuoteSettingController extends SettingController
 
     public function update(RequestQuoteSettingRequest $request): BaseHttpResponse
     {
-        return $this->performUpdate($request->validated());
+        $enabledFields = [];
+        $requiredFields = [];
+        $enabledFieldsInput = $request->input('request_quote_enabled_fields', []);
+        $requiredFieldsInput = $request->input('request_quote_required_fields', []);
+
+        foreach (['name', 'email', 'phone', 'company', 'quantity', 'message', 'state', 'city', 'address', 'attributes'] as $field) {
+            if (isset($enabledFieldsInput[$field])) {
+                $enabledFields[$field] = '1';
+            }
+
+            if (isset($requiredFieldsInput[$field])) {
+                $requiredFields[$field] = '1';
+            }
+        }
+
+        $settings = $request->validated();
+        $settings['request_quote_enabled_fields'] = $enabledFields;
+        $settings['request_quote_required_fields'] = $requiredFields;
+
+        return $this->performUpdate($settings);
     }
 }
