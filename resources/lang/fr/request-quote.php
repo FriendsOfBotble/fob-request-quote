@@ -10,7 +10,7 @@ return [
         'title' => 'Demande de Devis',
         'description' => 'Configurer la fonctionnalité de demande de devis',
     ],
-    
+
     'modal_title' => 'Demander un Devis',
     'product' => 'Produit',
     'sku' => 'SKU',
@@ -24,17 +24,27 @@ return [
     'company_placeholder' => 'Entrez le nom de votre société',
     'quantity' => 'Quantité',
     'quantity_placeholder' => 'Entrez la quantité',
+    'state' => 'Wilaya',
+    'select_state' => 'Sélectionnez la wilaya...',
+    'city' => 'Ville',
+    'select_city' => 'Sélectionnez la ville...',
+    'address' => 'Adresse',
+    'address_placeholder' => 'Adresse complète',
+    'attributes' => 'Attributs',
+    'attributes_helper' => 'Les options produit sélectionnées sont récupérées automatiquement si elles existent.',
+    'color' => 'Couleur',
+    'size' => 'Pointure',
     'message' => 'Message',
     'your_message' => 'Votre Message',
     'message_placeholder' => 'Veuillez fournir tous détails ou exigences supplémentaires...',
-    
+
     'submit' => 'Envoyer la Demande',
     'cancel' => 'Annuler',
-    
+
     'success_message' => 'Votre demande de devis a été envoyée avec succès !',
     'error_message' => 'Une erreur s\'est produite lors de l\'envoi de votre demande. Veuillez réessayer.',
     'product_disabled' => 'La demande de devis n’est pas disponible pour ce produit.',
-    
+
     'requests' => 'Demandes de Devis',
     'view_request' => 'Voir la Demande',
     'delete_request' => 'Supprimer la Demande',
@@ -52,7 +62,7 @@ return [
     'are_you_sure' => 'Êtes-vous sûr ?',
     'confirm_delete_message' => 'Cette action ne peut pas être annulée. Cela supprimera définitivement la demande de devis.',
     'delete_confirm' => 'Oui, Supprimer',
-    
+
     'statuses' => [
         'pending' => 'En Attente',
         'processing' => 'En Cours',
@@ -64,7 +74,7 @@ return [
     'confirm_mark_as_processing' => 'Êtes-vous sûr de vouloir marquer ce devis comme en cours ?',
     'confirm_mark_as_completed' => 'Êtes-vous sûr de vouloir marquer ce devis comme terminé ?',
     'confirm' => 'Confirmer',
-    
+
     'email' => [
         'title' => 'Email de Demande de Devis',
         'description' => 'Configuration email pour les notifications de demande de devis',
@@ -82,21 +92,25 @@ return [
         'thank_you' => 'Merci de votre intérêt pour nos produits !',
         'view_in_admin' => 'Voir la Demande',
         'admin_footer' => 'Ceci est une notification automatique de votre site web.',
-        
+
         'templates' => [
             'admin_notification_title' => 'Notification administrateur',
             'admin_notification_description' => 'Modèle d\'email pour l\'administrateur lors d\'une nouvelle demande de devis',
             'admin_notification_subject' => 'Nouvelle Demande de Devis : {{ product_name }}',
-            
+
             'customer_confirmation_title' => 'Confirmation client',
             'customer_confirmation_description' => 'Modèle d\'email pour la confirmation de demande de devis client',
             'customer_confirmation_subject' => 'Demande de Devis Reçue - {{ site_title }}',
-            
+
             'quote_name' => 'Nom du client',
             'quote_email' => 'Email du client',
             'quote_phone' => 'Téléphone du client',
             'quote_company' => 'Nom de la société',
             'quote_quantity' => 'Quantité demandée',
+            'quote_state' => 'Wilaya du client',
+            'quote_city' => 'Ville du client',
+            'quote_address' => 'Adresse du client',
+            'quote_attributes' => 'Attributs produit sélectionnés',
             'quote_message' => 'Message du client',
             'product_name' => 'Nom du produit',
             'product_sku' => 'SKU du produit',
@@ -105,14 +119,18 @@ return [
             'site_title' => 'Titre du site',
         ],
     ],
-    
+
     'setting_title' => 'Configuration de Demande de Devis',
     'general_settings' => 'Paramètres Généraux',
     'enable_request_quote' => 'Activer la Demande de Devis',
     'enable_request_quote_helper' => 'Lorsqu\'activé, le bouton de Demande de Devis sera affiché sur les pages produits et les clients pourront soumettre des demandes de devis.',
-    'receiver_emails' => 'Emails des Destinataires',
-    'receiver_emails_placeholder' => 'Entrez les adresses email séparées par des virgules',
-    'receiver_emails_helper' => 'Entrez une ou plusieurs adresses email séparées par des virgules (ex : ventes@exemple.com, devis@exemple.com). Si laissé vide, les notifications seront envoyées à l\'email admin configuré dans Paramètres → Général.',
+    'field_settings' => 'Champs du formulaire',
+    'field_settings_helper' => 'Choisissez les champs affichés sur le formulaire de demande de devis et ceux qui sont obligatoires.',
+    'field_name' => 'Champ',
+    'field_visible' => 'Visible',
+    'field_required' => 'Obligatoire',
+    'enable_field' => 'Afficher le champ :field',
+    'require_field' => 'Rendre le champ :field obligatoire',
     'button_settings' => 'Paramètres du Bouton',
     'button_icon' => 'Icône du Bouton',
     'button_icon_helper' => 'Sélectionnez une icône à afficher sur le bouton de Demande de Devis. Cela aide à rendre le bouton plus reconnaissable.',

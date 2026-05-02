@@ -69,6 +69,21 @@
                                                     {{ $quote->company }}
                                                 </dd>
                                                 @endif
+
+                                                @if($quote->state)
+                                                <dt class="col-5">{{ trans('plugins/fob-request-quote::request-quote.state') }}:</dt>
+                                                <dd class="col-7">{{ $quote->state }}</dd>
+                                                @endif
+
+                                                @if($quote->city)
+                                                <dt class="col-5">{{ trans('plugins/fob-request-quote::request-quote.city') }}:</dt>
+                                                <dd class="col-7">{{ $quote->city }}</dd>
+                                                @endif
+
+                                                @if($quote->address)
+                                                <dt class="col-5">{{ trans('plugins/fob-request-quote::request-quote.address') }}:</dt>
+                                                <dd class="col-7">{{ $quote->address }}</dd>
+                                                @endif
                                             </dl>
                                         </div>
                                     </div>
@@ -102,6 +117,17 @@
                                                 <dd class="col-7">
                                                     <span class="badge bg-blue text-blue-fg">{{ number_format($quote->quantity) }}</span>
                                                 </dd>
+
+                                                @if($quote->attributes)
+                                                <dt class="col-5">{{ trans('plugins/fob-request-quote::request-quote.attributes') }}:</dt>
+                                                <dd class="col-7">
+                                                    @foreach($quote->attributes as $label => $value)
+                                                        @if($value)
+                                                            <div><strong>{{ $label }}:</strong> {{ $value }}</div>
+                                                        @endif
+                                                    @endforeach
+                                                </dd>
+                                                @endif
                                             </dl>
                                         </div>
                                     </div>

@@ -52,6 +52,24 @@
                                                     <td style="padding: 5px 0;"><strong>{{ quote_company }}</strong></td>
                                                 </tr>
                                                 {% endif %}
+                                                {% if quote_state != '--' %}
+                                                <tr>
+                                                    <td class="bb-text-muted" style="padding: 5px 0;">{{ 'plugins/fob-request-quote::request-quote.state' | trans }}:</td>
+                                                    <td style="padding: 5px 0;"><strong>{{ quote_state }}</strong></td>
+                                                </tr>
+                                                {% endif %}
+                                                {% if quote_city != '--' %}
+                                                <tr>
+                                                    <td class="bb-text-muted" style="padding: 5px 0;">{{ 'plugins/fob-request-quote::request-quote.city' | trans }}:</td>
+                                                    <td style="padding: 5px 0;"><strong>{{ quote_city }}</strong></td>
+                                                </tr>
+                                                {% endif %}
+                                                {% if quote_address != '--' %}
+                                                <tr>
+                                                    <td class="bb-text-muted" style="padding: 5px 0;">{{ 'plugins/fob-request-quote::request-quote.address' | trans }}:</td>
+                                                    <td style="padding: 5px 0;"><strong>{{ quote_address }}</strong></td>
+                                                </tr>
+                                                {% endif %}
                                             </tbody>
                                         </table>
                                     </div>
@@ -76,6 +94,12 @@
                                                     <td class="bb-text-muted" style="padding: 5px 0;">{{ 'plugins/fob-request-quote::request-quote.quantity' | trans }}:</td>
                                                     <td style="padding: 5px 0;"><strong>{{ quote_quantity }}</strong></td>
                                                 </tr>
+                                                {% if quote_attributes != '--' %}
+                                                <tr>
+                                                    <td class="bb-text-muted" style="padding: 5px 0;">{{ 'plugins/fob-request-quote::request-quote.attributes' | trans }}:</td>
+                                                    <td style="padding: 5px 0;"><strong>{{ quote_attributes }}</strong></td>
+                                                </tr>
+                                                {% endif %}
                                             </tbody>
                                         </table>
                                     </div>

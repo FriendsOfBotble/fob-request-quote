@@ -9,19 +9,19 @@ Route::group(['namespace' => 'FriendsOfBotble\RequestQuote\Http\Controllers'], f
             Route::resource('', 'RequestQuoteController')
                 ->except(['create', 'store', 'edit', 'update'])
                 ->parameters(['' => 'quote']);
-            
+
             Route::get('{quote}', [
                 'as' => 'show',
                 'uses' => 'RequestQuoteController@show',
                 'permission' => 'request-quote.index',
             ])->wherePrimaryKey('quote');
-            
+
             Route::put('{quote}/notes', [
                 'as' => 'update-notes',
                 'uses' => 'RequestQuoteController@updateNotes',
                 'permission' => 'request-quote.index',
             ]);
-            
+
             Route::put('{quote}/status', [
                 'as' => 'update-status',
                 'uses' => 'RequestQuoteController@updateStatus',

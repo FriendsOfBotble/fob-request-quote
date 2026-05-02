@@ -6,6 +6,7 @@ use Botble\Base\Facades\BaseHelper;
 use Botble\Base\Facades\EmailHandler;
 use Botble\Base\Http\Controllers\BaseController;
 use Botble\Base\Http\Responses\BaseHttpResponse;
+use Botble\Ecommerce\Facades\EcommerceHelper;
 use Botble\Ecommerce\Models\Product;
 use FriendsOfBotble\RequestQuote\Http\Requests\RequestQuoteRequest;
 use FriendsOfBotble\RequestQuote\Models\RequestQuote;
@@ -27,7 +28,7 @@ class PublicRequestQuoteController extends BaseController
                 ->setMessage(trans('plugins/fob-request-quote::request-quote.product_disabled'));
         }
 
-        $quote = RequestQuote::query()->create($request->validated());
+        $quote = RequestQuote::query()->create($this->quotePayload($request->validated()));
 
         $quote->setRelation('product', $product);
 
@@ -46,6 +47,10 @@ class PublicRequestQuoteController extends BaseController
                 'quote_phone' => $quote->phone ?: '--',
                 'quote_company' => $quote->company ?: '--',
                 'quote_quantity' => $quote->quantity,
+                'quote_state' => $quote->state ?: '--',
+                'quote_city' => $quote->city ?: '--',
+                'quote_address' => $quote->address ?: '--',
+                'quote_attributes' => $this->formatAttributes($quote->attributes),
                 'quote_message' => $quote->message ?: '--',
                 'product_name' => $quote->product->name ?? '--',
                 'product_sku' => $quote->product->sku ?? '--',
@@ -57,14 +62,7 @@ class PublicRequestQuoteController extends BaseController
             $emailHandler = EmailHandler::setModule('fob-request-quote')
                 ->setVariableValues($emailVariables);
 
-            $receiverEmails = setting('request_quote_receiver_emails', '');
-
-            if (empty($receiverEmails)) {
-                $receiverEmails = get_admin_email()->all();
-            } else {
-                $receiverEmails = array_map('trim', explode(',', $receiverEmails));
-                $receiverEmails = array_filter($receiverEmails, fn ($email) => filter_var($email, FILTER_VALIDATE_EMAIL));
-            }
+            $receiverEmails = $this->resolveReceiverEmails($quote);
 
             if (! empty($receiverEmails)) {
                 $adminTemplateContent = $emailHandler->getTemplateContent('admin-notification', 'plugins');
@@ -74,7 +72,7 @@ class PublicRequestQuoteController extends BaseController
                 }
             }
 
-            if (setting('request_quote_send_confirmation', true)) {
+            if ($quote->email && setting('request_quote_send_confirmation', true)) {
                 $customerTemplateContent = $emailHandler->getTemplateContent('customer-confirmation', 'plugins');
 
                 if (! empty($customerTemplateContent)) {
@@ -84,5 +82,58 @@ class PublicRequestQuoteController extends BaseController
         } catch (Throwable $e) {
             BaseHelper::logError($e);
         }
+    }
+
+    protected function quotePayload(array $payload): array
+    {
+        $payload['name'] = $payload['name'] ?? '';
+        $payload['email'] = $payload['email'] ?? '';
+
+        if (empty($payload['quantity'])) {
+            $payload['quantity'] = 1;
+        }
+
+        $payload['state'] = $this->resolveLocationName($payload['state'] ?? null, 'Botble\\Location\\Models\\State');
+        $payload['city'] = $this->resolveLocationName($payload['city'] ?? null, 'Botble\\Location\\Models\\City');
+
+        $payload['attributes'] = array_filter(
+            $payload['attributes'] ?? [],
+            fn ($value) => filled($value)
+        );
+
+        return $payload;
+    }
+
+    protected function resolveLocationName(?string $value, string $modelClass): ?string
+    {
+        if (! $value || ! class_exists($modelClass) || ! is_numeric($value)) {
+            return $value;
+        }
+
+        return $modelClass::query()->whereKey($value)->value('name') ?: $value;
+    }
+
+    protected function resolveReceiverEmails(RequestQuote $quote): array
+    {
+        $vendorEmail = $quote->product?->original_product?->store?->email
+            ?: $quote->product?->store?->email;
+
+        if ($vendorEmail && filter_var($vendorEmail, FILTER_VALIDATE_EMAIL)) {
+            return [$vendorEmail];
+        }
+
+        return EcommerceHelper::getAdminNotificationEmails();
+    }
+
+    protected function formatAttributes(?array $attributes): string
+    {
+        if (empty($attributes)) {
+            return '--';
+        }
+
+        return collect($attributes)
+            ->filter(fn ($value) => filled($value))
+            ->map(fn ($value, $label) => sprintf('%s: %s', $label, $value))
+            ->implode("\n");
     }
 }

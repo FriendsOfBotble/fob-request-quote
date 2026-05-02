@@ -59,6 +59,12 @@
                                                                 <td class="bb-text-muted" style="padding: 3px 15px 3px 0;">{{ 'plugins/fob-request-quote::request-quote.quantity' | trans }}:</td>
                                                                 <td style="padding: 3px 0;"><strong style="font-size: 16px; color: #28a745;">{{ quote_quantity }}</strong></td>
                                                             </tr>
+                                                            {% if quote_attributes != '--' %}
+                                                            <tr>
+                                                                <td class="bb-text-muted" style="padding: 3px 15px 3px 0;">{{ 'plugins/fob-request-quote::request-quote.attributes' | trans }}:</td>
+                                                                <td style="padding: 3px 0;"><strong>{{ quote_attributes }}</strong></td>
+                                                            </tr>
+                                                            {% endif %}
                                                         </tbody>
                                                     </table>
                                                 </td>
